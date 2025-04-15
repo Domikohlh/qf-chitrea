@@ -1,6 +1,9 @@
 # qf-chitrea
 This is a github place for Alan and Dominic to work on the quantitative finance project in Chinese Treasury for model prediction and training. 
 
+# Current Progress
+- Data preprocessing
+
 #Objective
 1. Quantitative model for bond
 2. Insight into Chinese bond and interest rate and their prediction model in long-term
