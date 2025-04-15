@@ -18,6 +18,7 @@ This is a github place for Alan and Dominic to work on the quantitative finance 
 # Note
 1. Original data have 20,206 na and 2 columns of  constant variance which has been removed
 2. But the data ran pmm still has 2036 na remained. Needs to get in depth into that. Otherwise we cannot run PCA or even other ML model
+3. There are 143 numerical columns that are not imputed by pmm for unknown reason. 
 
 
 # Reminder
