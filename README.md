@@ -13,7 +13,8 @@ This is a github place for Alan and Dominic to work on the quantitative finance 
 
 
 #Note
-1. 
+1. Original data have 20,206 na and 2 columns of  constant variance which has been removed
+2. But the data ran pmm still has 2036 na remained. Needs to get in depth into that 
 
 #Reminder
 1. Can you give me more details about the data you gave me in the zip file and how could they be used? (Dom)
