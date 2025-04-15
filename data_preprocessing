@@ -37,7 +37,10 @@ colSums(is.na(nzv_filtered_data))
 imputed_data <- mice(nzv_filtered_data, m = 5, method = "pmm")
 combined_data <- complete(imputed_data, 1)
 
+#Check why is the data still having na
 sum(is.na(combined_data))
-sum(is.na(scaled_data))
-    
-colSums(is.nan(as.matrix(final_data)))
+colSums(is.na(combined_data))
+imputed_data$method
+sapply(combined_data, class)
+error<- tibble(colSums(is.na(combined_data)), imputed_data$method)
+sum(error$`colSums(is.na(combined_data))`!= 0 ,error$`imputed_data$method` != 'pmm',  na.rm =TRUE)
