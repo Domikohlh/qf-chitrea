@@ -1,5 +1,5 @@
 # qf-chitrea
-This is a github place for Alan and Dominic to work on the quantitative finance project in Chinese Treasury for model prediction and training. 
+This is a github place for Alan and Dominic to work on the quantitative finance project in Chinese Treasury (qf-chitrea) for model prediction and training. 
 
 # Current Progress
 - Data preprocessing
