@@ -7,9 +7,9 @@ This is a github place for Alan and Dominic to work on the quantitative finance 
 3. Time-series analysis
 
 #Messages
-Dom: I might just pop up messages in here in case you have anything want to say related to the project/code when I am not online/available. 
-Dom: I may also update on anything when I get to some points or errors so we can discuss it in advance. 
-Dom: You can also leave messages/note/reminders at th bottom so we can get them highlighted. 
+- Dom: I might just pop up messages in here in case you have anything want to say related to the project/code when I am not online/available. 
+- Dom: I may also update on anything when I get to some points or errors so we can discuss it in advance. 
+- Dom: You can also leave messages/note/reminders at th bottom so we can get them highlighted. 
 
 
 #Note
