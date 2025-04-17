@@ -37,10 +37,32 @@ colSums(is.na(nzv_filtered_data))
 imputed_data <- mice(nzv_filtered_data, m = 5, method = "pmm")
 combined_data <- complete(imputed_data, 1)
 
-#Check why is the data still having na
+#Check the number of na
 sum(is.na(combined_data))
 colSums(is.na(combined_data))
-imputed_data$method
-sapply(combined_data, class)
-error<- tibble(colSums(is.na(combined_data)), imputed_data$method)
-sum(error$`colSums(is.na(combined_data))`!= 0 ,error$`imputed_data$method` != 'pmm',  na.rm =TRUE)
+#imputed_data$method
+#sapply(combined_data, class)
+#error<- tibble(colSums(is.na(combined_data)), imputed_data$method)
+#sum(error$`colSums(is.na(combined_data))`!= 0 ,error$`imputed_data$method` != 'pmm',  na.rm =TRUE)
+
+#Fill na with 0
+combined_data[is.na(combined_data)] <- 0
+
+#Run PCA
+pca_result <- prcomp(combined_data, center = TRUE, scale. = TRUE)
+summary(pca_result)
+
+#PCA Visualisation
+variance <- pca_result$sdev^2 / sum(pca_result$sdev^2)
+
+#Variance plot
+ggplot(data = NULL, aes(x = 1:length(variance), y = variance)) +
+  geom_line(aes(y = variance), color = "blue") +
+  geom_point(aes(y = variance), color = "red") +
+  labs(x = "Principal Component", y = "Proportion of Variance", title = "Scree Plot")
+
+#Score plot
+scores <- as.data.frame(pca_result$x)
+ggplot(scores, aes(x = PC1, y = PC2, color = "PC")) +
+  geom_point() +
+  labs(title = "PCA Scores Plot")
