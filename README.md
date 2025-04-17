@@ -2,8 +2,7 @@
 This is a github place for Alan and Dominic to work on the quantitative finance project in Chinese Treasury (qf-chitrea) for model prediction and training. 
 
 # Current Progress
-- Data preprocessing in R
-- Data preprocessing in Python
+- Run PCA in R
 
 # Objective
 1. Quantitative model for bond
@@ -22,6 +21,7 @@ This is a github place for Alan and Dominic to work on the quantitative finance 
 4. Tried running the pmm with 20 interations, but still ended up with 2036 na remained with unknown reason. (R)
 5. The remaining na are replaced by 0. (R) 
 6. PCA ran successfully (R)
+7. Visualised the data in PCA (R)
 
 
 # Reminder
