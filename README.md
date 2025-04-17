@@ -26,5 +26,4 @@ This is a github place for Alan and Dominic to work on the quantitative finance 
 
 
 # Reminder
-1. Can you give me more details about the data you gave me in the zip file and how could they be used? (Dom)
-2. Feel free to change anything if you have more details.
+1. Feel free to change anything if you have more details.
