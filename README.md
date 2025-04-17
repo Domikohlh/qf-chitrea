@@ -18,11 +18,10 @@ This is a github place for Alan and Dominic to work on the quantitative finance 
 
 # Note
 1. Original data have 20,206 na and 2 columns of  constant variance which has been removed
-2. But the data ran pmm still has 2036 na remained. Needs to get in depth into that. Otherwise we cannot run PCA or even other ML model (R)
-3. There are 143 numerical columns that are not imputed by pmm for unknown reason. (R)
+2. There is 2036 na remained amd 143 numerical columns that are not imputed by pmm for unknown reason (Maybe due to incomplete process). (R)
 4. Tried running the pmm with 20 interations, but still ended up with 2036 na remained with unknown reason. (R)
-5. Alternative solution would be removing the 143 columns from the data. (R)
-6. Now trying to run the data in Python...
+5. The remaining na are replaced by 0. (R) 
+6. PCA ran successfully (R)
 
 
 # Reminder
