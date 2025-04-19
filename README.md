@@ -1,13 +1,31 @@
 # qf-chitrea
-This is a github place for Alan and Dominic to work on the quantitative finance project in Chinese Treasury (qf-chitrea) for model prediction and training. 
+This is a GitHub place for Alan and Dominic to work on the quantitative finance project in Chinese Treasury (qf-chitrea) for model prediction and training. 
 
 # Current Progress
 - Run PCA in R
 
 # Objective
 1. Quantitative model for bond
-2. Insight into Chinese bond and interest rate and their prediction model in long-term
+   We will use the following data: 
+   - 中國_中債國債到期收益率_10年 as the target variable for prediction
+   - 中債國債總淨價指數 as the performance benchmark
+   - 因子signal汇总、估值因子signal、宏观因子signal、因子汇总 as the factor library
+  
+**Modelling Approach:
+**We can start by training a base model using OLS or Ridge regression (and later extebd to models like LSTM or Prophet) 
+
+2. Insight into Chinese bond and interest rate and their prediction model in the long term
+   - Build a long-term interest rate prediction model
+   - Use macro variables such as CPI, PPI, M1 and Total Social Financing as features
+   - Incorporate valuation factors and economic cycle-related variables for forecasting (e.g. marked as +1, 0, -1)
+
 3. Time-series analysis
+   We can use:
+   - Moving averages, lag features, and trend changes
+   - Trend + seasonality models built with statsmodels or Prophet
+  
+   Model Evaluation Metrics:
+   MSE, Sharpe Ratio, Maximum Drawdown, etc
 
 # Messages
 - Dom: I might just pop up messages in here in case you have anything want to say related to the project/code when I am not online/available. 
@@ -17,13 +35,13 @@ This is a github place for Alan and Dominic to work on the quantitative finance 
 
 # Datafiles
 1. 中國_中債國債到期收益率_10年 - Can be used as the target variable in the predictive model, and also for calculating yield changes, yield spreads, duration, etc.
-3. 中債國債總淨價指數 - Serves as a benchmark for backtesting and for verifying whether a strategy generates alpha.
-4. 回測結果（兩個） - Used to evaluate the effectiveness of the strategy under different market conditions, and to calculate performance metrics such as Sharpe ratio and maximum drawdown.
-5. 因子signal匯總 - Used to generate portfolio allocation signals; signals can also be combined into a composite indicator using factor weighting.
-6. 因子匯總 - Used for model training, such as PCA dimensionality reduction, factor selection, or scoring model development.
-7. 估值因子signal - Helps determine whether interest rate bonds are “undervalued or overvalued”; considered a valuation-type signal.
-8. 宏觀因子signal / 宏觀因子篩選 - Provides macro trend signals (e.g., economic expansion is negative for bonds, signal = -1).
-9. 宏觀择時因子庫 - Can be used to generate timing signals based on z-scores, percentiles, or other emission mechanisms.
+2. 中債國債總淨價指數 - Serves as a benchmark for backtesting and for verifying whether a strategy generates alpha.
+3. 回測結果（兩個） - Used to evaluate the effectiveness of the strategy under different market conditions, and to calculate performance metrics such as Sharpe ratio and maximum drawdown.
+4. 因子signal匯總 - Used to generate portfolio allocation signals; signals can also be combined into a composite indicator using factor weighting.
+5. 因子匯總 - Used for model training, such as PCA dimensionality reduction, factor selection, or scoring model development.
+6. 估值因子signal - Helps determine whether interest rate bonds are “undervalued or overvalued”; considered a valuation-type signal.
+7. 宏觀因子signal / 宏觀因子篩選 - Provides macro trend signals (e.g., economic expansion is negative for bonds, signal = -1).
+8. 宏觀择時因子庫 - Can be used to generate timing signals based on z-scores, percentiles, or other emission mechanisms.
 
       
 
