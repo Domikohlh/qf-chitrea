@@ -27,6 +27,16 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    Model Evaluation Metrics:
    MSE, Sharpe Ratio, Maximum Drawdown, etc
 
+# Project Structure
+1. Data Preparation (Standardisation, Handling missing data, dimensionality reduction(PCA))
+2. Model Selection
+   - Base models: OLS, Ridge, Lasso
+   - Tree-based: Random Forest, XGBoost
+   - Sequence models (later): LSTM, Prophet for time-aware trends
+3. Hyperparameter Tuning
+   - Use GridSearch with TimeSeriesSplit
+4. Model Evaluation and Backtesting
+   
 # Model Evaluation Metrics
  1. Forecasting Yield / Interest Rate (e.g. 10Y CGB Yield)
 
