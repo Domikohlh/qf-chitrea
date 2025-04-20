@@ -79,3 +79,6 @@ head(loadings[, 1:2])
 
 top_vars <- loadings[order(abs(loadings[, 1]), decreasing = TRUE), 1]
 head(top_vars, 5)
+
+# Data export
+write_csv(combined_data, file = 'Your_path/processed_data.csv')
