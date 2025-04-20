@@ -9,6 +9,8 @@ from sklearn.model_selection import train_test_split, StratifiedKFold
 from sklearn.matrics import confusion_matrix, precision_score, recall_score, mean_squared_error
 from sklearn.linear_model import Lasso, Ridge
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import RidgeCV
+from sklearn.ensemble import RandomForestRegressor
 
 #Import processed data
 setwd = os.path('Your_work_path')
@@ -19,4 +21,23 @@ y = data['column2']
 #Split the training and testing data 
 x_train, y_train, x_test, y_test = train_test_split(x, y, test_size = 0.2, random_state = 42)
 
-#Run the training data in  
+#Run the training data in Ridge Regression
+ridge_model = RidgeCV(alphas=[0.1, 1.0, 10.0])
+ridge_model.fit(X_train, y_train)
+ridge_preds = ridge_model.predict(X_test)
+
+print("Ridge Regression Performance:")
+print("MSE:", mean_squared_error(y_test, ridge_preds))
+print("R2 :", r2_score(y_test, ridge_preds))
+
+
+#Run the training data in Random Forest
+rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+rf_model.fit(X_train, y_train)
+rf_preds = rf_model.predict(X_test)
+
+print("Random Forest Performance:")
+print("MSE:", mean_squared_error(y_test, rf_preds))
+print("R2 :", r2_score(y_test, rf_preds))
+
+
