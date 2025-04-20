@@ -27,10 +27,37 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    Model Evaluation Metrics:
    MSE, Sharpe Ratio, Maximum Drawdown, etc
 
+# Model Evaluation Metrics
+ 1. Forecasting Yield / Interest Rate (e.g. 10Y CGB Yield)
+
+- Mean Squared Error (MSE) / Root Mean Squared Error (RMSE): Measures the average prediction error. Sensitive to large deviations.
+
+- Mean Absolute Error (MAE): Less sensitive to outliers than MSE; interpretable in yield terms (bps).
+
+- R² (Coefficient of Determination): Useful to see how much variance your model explains.
+
+✅ Use these if your model is built to predict exact yield levels.
+
+2. Forecasting Signals / Timing Decisions (e.g. +1, 0, -1)
+- If you're converting macro or valuation signals into timing indicators:
+
+- Accuracy / Precision / Recall: Using +1 / 0 / -1 frameworks to classify signals.
+
+- Confusion Matrix: To understand the distribution of timing signals (e.g. false positives).
+
+✅ Use if your model outputs directionality or discrete timing signals.
+
+3. Portfolio / Backtesting Evaluation (based on model decisions)
+- Since our model leads to actual positioning (e.g. long or short duration), we want trading performance metrics:
+- Sharpe Ratio: Measures risk-adjusted return. 
+- Maximum Drawdown: critical to assess downside risk in a bond portfolio context.
+- Annualised Return / Volatility: to track performance consistency and risk exposure.
+- Win rate: percentage of periods the model correctly positioned the trade.
+
 # Messages
 - Dom: I might just pop up messages in here in case you have anything want to say related to the project/code when I am not online/available. 
 - Dom: I may also update on anything when I get to some points or errors so we can discuss it in advance. 
-- Dom: You can also leave messages/note/reminders at th bottom so we can get them highlighted. 
+- Dom: You can also leave messages/note/reminders at the bottom so we can get them highlighted. 
 
 
 # Datafiles
