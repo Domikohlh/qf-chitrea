@@ -35,7 +35,8 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    - Sequence models (later): LSTM, Prophet for time-aware trends
 3. Hyperparameter Tuning
    - Use GridSearch with TimeSeriesSplit
-4. Model Evaluation and Backtesting
+4. Model Evaluation (during training) - "Does it predict yield well?" 
+5. Backtesting (after the model is trained and selected) - "Does it actually make money (or outperform)?" 
    
 # Model Evaluation Metrics
  1. Forecasting Yield / Interest Rate (e.g. 10Y CGB Yield)
