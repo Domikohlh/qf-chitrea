@@ -2,7 +2,7 @@
 This is a GitHub place for Alan and Dominic to work on the quantitative finance project in Chinese Treasury (qf-chitrea) for model prediction and training. 
 
 # Current Progress
-- Run PCA in R
+- Run Machine Learning models in Python
 
 # Objective
 1. Quantitative model for bond
