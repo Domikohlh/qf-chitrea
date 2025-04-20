@@ -1,0 +1,22 @@
+#Import library
+#Install all the libraries with 'pip install (Library)'
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import os
+from sklearn.model_selection import train_test_split, StratifiedKFold
+from sklearn.matrics import confusion_matrix, precision_score, recall_score, mean_squared_error
+from sklearn.linear_model import Lasso, Ridge
+from sklearn.ensemble import RandomForestClassifier
+
+#Import processed data
+setwd = os.path('Your_work_path')
+data = read_csv('data_directory/processed_data.csv')
+x = data['column1']
+y = data['column2']
+
+#Split the training and testing data 
+x_train, y_train, x_test, y_test = train_test_split(x, y, test_size = 0.2, random_state = 42)
+
+#Run the training data in  
