@@ -14,7 +14,7 @@ from sklearn.ensemble import RandomForestRegressor
 
 #Import processed data
 setwd = os.path('Your_work_path')
-data = read_csv('data_directory/processed_data.csv')
+data = pd.read_csv('data_directory/processed_data.csv')
 x = data['column1']
 y = data['column2']
 
@@ -23,8 +23,8 @@ x_train, y_train, x_test, y_test = train_test_split(x, y, test_size = 0.2, rando
 
 #Run the training data in Ridge Regression
 ridge_model = RidgeCV(alphas=[0.1, 1.0, 10.0])
-ridge_model.fit(X_train, y_train)
-ridge_preds = ridge_model.predict(X_test)
+ridge_model.fit(x_train, y_train)
+ridge_preds = ridge_model.predict(x_test)
 
 print("Ridge Regression Performance:")
 print("MSE:", mean_squared_error(y_test, ridge_preds))
@@ -33,8 +33,8 @@ print("R2 :", r2_score(y_test, ridge_preds))
 
 #Run the training data in Random Forest
 rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
-rf_model.fit(X_train, y_train)
-rf_preds = rf_model.predict(X_test)
+rf_model.fit(x_train, y_train)
+rf_preds = rf_model.predict(x_test)
 
 print("Random Forest Performance:")
 print("MSE:", mean_squared_error(y_test, rf_preds))
