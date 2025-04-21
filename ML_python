@@ -36,14 +36,14 @@ for ml in (ridge_model, lasso_model, lin_model, svm_model):
      print("R2 :", r2_score(y_test, model_preds))
      print("Intercept (Theta_0):", model_model.intercept_)
      print("Coefficient (Theta_1):", model_model.coef_)
+     print("----------------------------------")
       
 #Run the training data in Random Forest
-rf_model = RandomForestRegressor(n_estimators=100, max_leaf_nodes = 10, random_state=42)
+rf_model = RandomForestRegressor(n_estimators=100, max_leaf_nodes = 10, n_jobs = -1)
 rf_model.fit(x_train, y_train)
 rf_preds = rf_model.predict(x_test)
 
 print("Random Forest Performance:")
-print("MSE:", mean_squared_error(y_test, rf_preds))
-print("R2 :", r2_score(y_test, rf_preds))
+print("Accuracy:", accuracy_score(y_test, rf_preds)
 
 
