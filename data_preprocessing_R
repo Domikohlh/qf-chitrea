@@ -83,3 +83,4 @@ head(top_vars, 5)
 
 # Data export
 write_csv(combined_data, file = 'Your_path/processed_data.csv')
+save_RDS(combined_data, file = '')
