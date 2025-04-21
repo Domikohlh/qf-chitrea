@@ -37,7 +37,7 @@ nzv_filtered_data <- scaled_data[, !(colnames(scaled_data) %in% cols_to_remove),
 colSums(is.na(nzv_filtered_data))
 #Create 5 separate imputed datasets for variability in plausible values and improve accuracy
 imputed_data <- mice(nzv_filtered_data, m = 5, method = "pmm")
-combined_data <- complete(imputed_data, 1)
+combined_data <- as.tibble(complete(imputed_data, 1))
 
 #Check the number of na
 sum(is.na(combined_data))
