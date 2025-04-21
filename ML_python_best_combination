@@ -1,0 +1,62 @@
+# generate all variable combinations from the top ten relevant variables
+
+from itertools import combinations
+
+top_vars = [
+    "中国:社会消费品零售总额:当月值", "中国:M1:单位活期存款", "中国:M2", "中国:产量:发电量:当月值.1",
+    "中国:M1", "中国:金融机构:企业存款余额", "中国:金融机构:短期贷款余额",
+    "中国:城镇居民平均每百户拥有量:家用汽车", "中国:M0", "中国:产量:发电量:当月值"
+]
+
+# Try combinations of 3 to 6 variables (can adjust)
+combi_list = []
+for r in range(3, 7):
+    combi_list.extend(combinations(top_vars, r))
+
+# model loop for each combination
+
+from sklearn.linear_model import Ridge
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import numpy as np
+
+results = []
+
+for combi in combi_list:
+    X = data[list(combi)]
+    y = data["中债国债到期收益率_10年"]  # target
+    
+    # train/test split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
+    
+    model = Ridge()
+    model.fit(X_train, y_train)
+    pred = model.predict(X_test)
+    
+    # Evaluation metrics
+    mse = mean_squared_error(y_test, pred)
+    mae = mean_absolute_error(y_test, pred)
+    r2 = r2_score(y_test, pred)
+    
+    # Save results
+    results.append({
+        "features": combi,
+        "mse": mse,
+        "mae": mae,
+        "r2": r2,
+    })
+
+# sort by R2 (or lowest MSE if you prefer)
+sorted_results = sorted(results, key=lambda x: -x["r2"])
+
+
+# convert prediction to signal for portfolio simulation (optional)
+
+# if your prediction is yield level: convert to +1/0/-1 signals
+signal = np.sign(np.diff(pred))  # assumes yield change as signal
+# simulate long/short bond portfolio (duration up/down)
+
+# evaluate Trading Performance (Sharpe etc.)
+# use the prediction to simulate a simple long/short strategy. Based on the singal
+# Simple Sharpe Ratio calculation
+daily_returns = signal * bond_return_series  # assume bond_return_series is pre-computed
+sharpe_ratio = np.mean(daily_returns) / np.std(daily_returns) * np.sqrt(252)  # annualized
