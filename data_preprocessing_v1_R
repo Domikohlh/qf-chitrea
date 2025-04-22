@@ -56,7 +56,7 @@ colSums(is.na(combined_data))
 combined_data[is.na(combined_data)] <- 0
 
 #Save cleaned data
-write.csv(combined_data, "cleaned_macro_data.csv", row.names = FALSE)
+save_RDS(combined_data, file = 'file name')
 
 #Run PCA
 pca_result <- prcomp(combined_data, center = TRUE, scale. = TRUE)
