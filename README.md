@@ -90,6 +90,13 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
 7. Visualised the data in PCA (R)
 8. Export data into rds file (R)
 9. Ran 3 linear regressions of the top 10 PCs (Python)
+10. 
+
+# ML_python result
+- "中国:产量:发电量:当月值.1" 是最核心因子 (It consistently shows strong positive predictive power across all models (coefficient close to 1))
+- Ridge is the most robust choice (High R2, low error, and retains multiple contributing features)
+- Lasso is useful for feature selection (Effective for initial variable screening or dimensionality reduction, but underperforms slightly in this dataset)
+- Linear regression is too perfect and may be overfitting (Suitable as a benchmark, but not ideal for direct deployment)
 
 # Note
 1. R programming outputed garbled code when execute in csv format. Changed to rds and read successfully in Python
