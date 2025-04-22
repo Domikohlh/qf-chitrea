@@ -55,9 +55,6 @@ colSums(is.na(combined_data))
 #Fill na with 0
 combined_data[is.na(combined_data)] <- 0
 
-#Save cleaned data
-save_RDS(combined_data, file = 'file name')
-
 #Run PCA
 pca_result <- prcomp(combined_data, center = TRUE, scale. = TRUE)
 summary(pca_result)
@@ -87,3 +84,10 @@ head(loadings[, 1:2])
 
 top_vars <- loadings[order(abs(loadings[, 1]), decreasing = TRUE), 1]
 head(top_vars, 10)
+
+#Add the date back to the data
+date <- data[[1]]
+combined_data <- cbind(指標名稱 = date, combined_data)
+
+#Save the data
+saveRDS(combined_data, "../cleaned_macro_data.rds")
