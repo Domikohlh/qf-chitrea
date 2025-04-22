@@ -106,6 +106,17 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
 - Lasso is useful for feature selection (Effective for initial variable screening or dimensionality reduction, but underperforms slightly in this dataset)
 - Linear regression is too perfect and may be overfitting (Suitable as a benchmark, but not ideal for direct deployment)
 
+# Backtesting for Ridge
+The Ridge model performs very stably in backtesting. RMSE consistently decreases, and R² approaches perfection, suggesting strong out-of-sample predictive power. Currently, there are no signs of overfitting.
+
+But you should ask yourself:
+
+Is the data too stable, making the model appear ideal?
+
+Will the model retain this level of precision if the data regime changes?
+
+You may want to consider adding noise or perturbations to the data and performing a stress test to assess robustness.
+
 # Note
 1. R programming outputed garbled code when execute in csv format. Changed to rds and read successfully in Python
 2. Do not move the export line in R. It is because date is added back and move the line forward may lead to error in PCA analysis
