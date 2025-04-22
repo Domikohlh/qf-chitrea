@@ -32,6 +32,11 @@ ridge_model = RidgeCV(alphas=[0.1, 1.0, 10.0])
 lasso_model = Lasso(alpha=0.1)
 lin_model = LinearRegression()
 
+#Input the linear (base) model
+ridge_model = RidgeCV(alphas=[0.1, 1.0, 10.0])
+lasso_model = Lasso(alpha=0.1)
+lin_model = LinearRegression()
+
 for ml in (ridge_model, lasso_model, lin_model):
     ml.fit(x_train, y_train)
     model_preds = ml.predict(x_test)
@@ -42,4 +47,10 @@ for ml in (ridge_model, lasso_model, lin_model):
     print("R2 :", r2_score(y_test, model_preds))
     print("Intercept (Theta_0):", ml.intercept_)
     print("Coefficient (Theta_1):", ml.coef_)
+    plt.plot(y_test, y_test, 'r-')
+    plt.plot(x,y, 'b.')
+    plt.title(ml.__class__.__name__)
+    plt.xlabel('Retail price')
+    plt.ylabel('Predictions')
+    plt.show()
     print("----------------------------------")
