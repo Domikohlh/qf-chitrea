@@ -89,7 +89,7 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
 6. PCA ran successfully (R)
 7. Visualised the data in PCA (R)
 8. Export data into rds file (R)
-9. Run Scikit-learn in Python (Python)
+9. Ran 3 linear regressions of the top 10 PCs (Python)
 
 # Note
 1. R programming outputed garbled code when execute in csv format. Changed to rds and read successfully in Python
