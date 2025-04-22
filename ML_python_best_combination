@@ -47,7 +47,7 @@ print(benchmark_yield[["date", "yield_10y", "cumulative_return"]].tail())
 
 
 
-# 3. Machine Learning Output - Model Selection
+# 4. Machine Learning Output - Model Selection
 # LightGBM
 lgb_model = lgb.LGBMRegressor()
 lgb_model.fit(X_train, y_train)
@@ -65,7 +65,7 @@ lazy = LazyRegressor(verbose=0, ignore_warnings=True, custom_metric=None)
 models, predictions = lazy.fit(X_train, X_test, y_train, y_test)
 print(models)
 
-# 4. Backtesting
+# 5. Backtesting
 # === Rolling Out-of-Sample Backtest ===
 def rolling_backtest(data, variables, model_class, window=60):
     excess_returns, mse_list = [], []
