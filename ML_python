@@ -11,7 +11,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import RidgeCV, Lasso, LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import VotingClassifier
-from sklearn.svm import svc
+from sklearn.svm import SVC
 
 #Import processed data
 setwd = os.path('Your_work_path')
