@@ -31,7 +31,7 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
 1. Data Preparation (Standardisation, Handling missing data, dimensionality reduction(PCA)) (DONE)
 2. Model Selection
    - Base models: OLS, Ridge, Lasso, SVM
-   - Tree-based: Random Forest, XGBoost
+   - Tree-based: XGBoost
    - Sequence models (later): LSTM, Prophet for time-aware trends
 3. Hyperparameter Tuning
    - Use GridSearch with TimeSeriesSplit
