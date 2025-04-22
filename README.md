@@ -30,9 +30,9 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
 # Project Structure
 1. Data Preparation (Standardisation, Handling missing data, dimensionality reduction(PCA)) (DONE)
 2. Model Selection
-   - Base models: OLS, Ridge, Lasso, SVM
+   - Base models: OLS, Ridge, Lasso
    - Tree-based: XGBoost
-   - Sequence models (later): LSTM, Prophet for time-aware trends
+   - Sequence models (later): LSTM, RNN for time-aware trends
 3. Hyperparameter Tuning
    - Use GridSearch with TimeSeriesSplit
    - Margin tunning 
