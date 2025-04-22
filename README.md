@@ -88,8 +88,9 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
 5. The remaining na are replaced by 0. (R) 
 6. PCA ran successfully (R)
 7. Visualised the data in PCA (R)
-8. Export data into csv file (R)
+8. Export data into rds file (R)
 9. Run Scikit-learn in Python (Python)
 
-# Reminder
-1. Feel free to change anything if you have more details.
+# Note
+1. R programming outputed garbled code when execute in csv format. Changed to rds and read successfully in Python
+2. Do not move the export line in R. It is because date is added back and move the line forward may lead to error in PCA analysis
