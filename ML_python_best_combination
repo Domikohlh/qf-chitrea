@@ -1,107 +1,137 @@
-#Import library
-#Install all the libraries with 'pip install (Library)'
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import os
-from sklearn.model_selection import train_test_split, StratifiedKFold
-from sklearn.metrics import confusion_matrix, precision_score, recall_score, mean_squared_error, accuracy_score, mean_absolute_error, r2_score
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import RidgeCV, Lasso, LinearRegression, Ridge
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.ensemble import VotingClassifier
-from sklearn.svm import SVR
-from rds2py import read_rds
-from itertools import combinations
+import subprocess
+import sys
+from sklearn.linear_model import Ridge, LinearRegression
+from sklearn.model_selection import TimeSeriesSplit, GridSearchCV
+from sklearn.metrics import mean_squared_error
+from sklearn.preprocessing import StandardScaler
+from statsmodels.tsa.seasonal import seasonal_decompose
+from statsmodels.tsa.stattools import adfuller
+from prophet import Prophet
+import yfinance as yf  # For benchmark data if needed
+import warnings
 
-#Import processed data
-data = read_rds(r"C:\Users\Alan\OneDrive\桌面\利率债择时模型\cleaned_macro_data.rds")
-print(data.head())
+warnings.filterwarnings('ignore')
 
-# generate all variable combinations from the top ten relevant variables
+# 1. Data Extraction
 
+# Load your data
+yield_data = pd.read_excel(r"C:\Users\Alan\OneDrive\桌面\利率债择时模型\中国_中债国债到期收益率_10年.xlsx")
+benchmark_data = pd.read_excel(r"C:\Users\Alan\OneDrive\桌面\利率债择时模型\中债国债总净价指数.xlsx")
+macro_rds = pyreadr.read_r(r"C:\Users\Alan\OneDrive\桌面\利率债择时模型\cleaned_macro_data.rds")
+macro_df = list(macro_rds.values())[0]
+
+
+# 2. Data Manipulation (refer to R code)
+
+
+# 3. Creating the Target Column 
+# the top ten most relevant variables
 top_vars = [
     "中国:社会消费品零售总额:当月值", "中国:M1:单位活期存款", "中国:M2", "中国:产量:发电量:当月值.1",
     "中国:M1", "中国:金融机构:企业存款余额", "中国:金融机构:短期贷款余额",
     "中国:城镇居民平均每百户拥有量:家用汽车", "中国:M0", "中国:产量:发电量:当月值"
 ]
 
-# Try combinations of 3 to 6 variables (can adjust)
-combi_list = []
-for r in range(3, 7):
-    combi_list.extend(combinations(top_vars, r))
+# Benchmarking Cumulative Return Calculation
+benchmark_yield = pd.read_excel("中国_中债国债到期收益率_10年.xlsx")
+benchmark_yield.columns = ["date", "yield_10y"]
+benchmark_yield["date"] = pd.to_datetime(benchmark_yield["date"])
+benchmark_yield = benchmark_yield.sort_values("date").dropna()
 
-# model loop for each combination
+benchmark_yield["log_return"] = np.log1p(benchmark_yield["yield_10y"] / 100)
+benchmark_yield["cumulative_return"] = benchmark_yield["log_return"].cumsum()
+print(benchmark_yield[["date", "yield_10y", "cumulative_return"]].tail())
 
-results = []
 
-for combi in combi_list:
-    X = data[list(combi)]
-    y = data["中债国债到期收益率_10年"]  # target
-    
-    # train/test split
+
+# 3. Machine Learning Output - Model Selection
+# LightGBM
+lgb_model = lgb.LGBMRegressor()
+lgb_model.fit(X_train, y_train)
+lgb_preds = lgb_model.predict(X_test)
+print("LightGBM MSE:", mean_squared_error(y_test, lgb_preds))
+
+# XGBoost
+xgb_model = xgb.XGBRegressor(objective="reg:squarederror")
+xgb_model.fit(X_train, y_train)
+xgb_preds = xgb_model.predict(X_test)
+print("XGBoost MSE:", mean_squared_error(y_test, xgb_preds))
+
+# LazyPredict Comparison
+lazy = LazyRegressor(verbose=0, ignore_warnings=True, custom_metric=None)
+models, predictions = lazy.fit(X_train, X_test, y_train, y_test)
+print(models)
+
+# 4. Backtesting
+# === Rolling Out-of-Sample Backtest ===
+def rolling_backtest(data, variables, model_class, window=60):
+    excess_returns, mse_list = [], []
+    for start in range(len(data) - window):
+        train = data.iloc[start:start + window]
+        test = data.iloc[start + window:start + window + 1]
+        if test.empty: continue
+
+        X_train, y_train = train[variables], train["yield_10y"]
+        X_test, y_test = test[variables], test["yield_10y"].values[0]
+        benchmark_test = test["benchmark"].values[0]
+
+        model = model_class()
+        model.fit(X_train, y_train)
+        pred = model.predict(X_test)[0]
+
+        excess_returns.append(pred - benchmark_test)
+        mse_list.append((pred - y_test) ** 2)
+
+    if len(excess_returns) < 2: return None, None
+    return np.mean(excess_returns) / np.std(excess_returns), np.mean(mse_list)
+
+# === Prophet Forecasting ===
+def run_prophet(df):
+    prophet_df = df[["date", "yield_10y"]].rename(columns={"date": "ds", "yield_10y": "y"})
+    model = Prophet()
+    model.fit(prophet_df)
+    future = model.make_future_dataframe(periods=12, freq='M')
+    forecast = model.predict(future)
+    return forecast[["ds", "yhat"]]
+
+# === LSTM Forecasting ===
+def run_lstm(df, variables):
+    sequence_length = 12
+    df_lstm = df[variables + ["yield_10y"]].values
+
+    X, y = [], []
+    for i in range(len(df_lstm) - sequence_length):
+        X.append(df_lstm[i:i + sequence_length, :-1])
+        y.append(df_lstm[i + sequence_length, -1])
+
+    X, y = np.array(X), np.array(y)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
-    
-    model = Ridge()
-    model.fit(X_train, y_train)
-    pred = model.predict(X_test)
-    
-    # Evaluation metrics
-    mse = mean_squared_error(y_test, pred)
-    mae = mean_absolute_error(y_test, pred)
-    r2 = r2_score(y_test, pred)
-    
-    # Save results
-    results.append({
-        "features": combi,
-        "mse": mse,
-        "mae": mae,
-        "r2": r2,
-    })
 
-# sort by R2 (or lowest MSE if you prefer)
-sorted_results = sorted(results, key=lambda x: -x["r2"])
+    model = Sequential()
+    model.add(LSTM(50, input_shape=(X.shape[1], X.shape[2])))
+    model.add(Dense(1))
+    model.compile(loss='mse', optimizer='adam')
+    model.fit(X_train, y_train, epochs=50, batch_size=16, verbose=0)
 
+    predictions = model.predict(X_test)
+    return predictions, y_test
 
-# convert prediction to signal for portfolio simulation (optional)
+# === Run Ridge/Lasso on Top Combos ===
+top_combos = list(combinations(top_vars, 4))[:3]  # test top 3 sets
+for model_class in [Ridge, Lasso]:
+    for vars_ in top_combos:
+        sr, mse = rolling_backtest(data_filtered, vars_, model_class)
+        print(f"{model_class.__name__} {vars_}\nSharpe: {sr:.4f}, MSE: {mse:.4f}\n")
 
-# if your prediction is yield level: convert to +1/0/-1 signals
-signal = np.sign(np.diff(pred))  # assumes yield change as signal
-# simulate long/short bond portfolio (duration up/down)
+# === Run Prophet ===
+prophet_output = run_prophet(data_filtered)
+print(prophet_output.tail())
 
-# evaluate Trading Performance (Sharpe etc.)
-# use the prediction to simulate a simple long/short strategy. Based on the singal
-# Simple Sharpe Ratio calculation
-bond_return_series = y_test.diff().fillna(0).values 
-daily_returns = signal * bond_return_series  # assume bond_return_series is pre-computed
-sharpe_ratio = np.mean(daily_returns) / np.std(daily_returns) * np.sqrt(252)  # annualized
+# === Run LSTM ===
+lstm_vars = top_vars[:5]
+preds, actuals = run_lstm(data_filtered, lstm_vars)
+print("LSTM Test MSE:", mean_squared_error(actuals, preds))
 
-print("Sharpe Ratio: ", sharpe_ratio)
-
-# Plot the prediction vs actual yield
-plt.figure(figsize=(10, 6))
-plt.plot(y_test.index, y_test, label="Actual Yield", color='blue')
-plt.plot(y_test.index, pred, label="Predicted Yield", color='red')
-plt.title("Yield Prediction vs Actual")
-plt.xlabel("Date")
-plt.ylabel("Yield")
-plt.legend()
-plt.show()
-
-# Save the best combination of features and their performance metrics
-best_combination = sorted_results[0]
-best_combination_df = pd.DataFrame([best_combination])
-best_combination_df.to_csv("best_combination.csv", index=False)
-
-# Save the model for the best combination (optional)
-import joblib
-best_model = Ridge()
-X_best = data[list(best_combination["features"])]
-best_model.fit(X_best, y)
-joblib.dump(best_model, "best_model.pkl")
-
-print("Best feature combination: ", best_combination["features"])
-print("MSE: ", best_combination["mse"])
-print("MAE: ", best_combination["mae"])
-print("R2: ", best_combination["r2"])
