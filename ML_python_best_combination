@@ -54,11 +54,45 @@ lgb_model.fit(X_train, y_train)
 lgb_preds = lgb_model.predict(X_test)
 print("LightGBM MSE:", mean_squared_error(y_test, lgb_preds))
 
+# Basic regression metrics
+print("\nLightGBM Evaluation:")
+print("MSE:", mean_squared_error(y_test, lgb_preds))
+print("MAE:", mean_absolute_error(y_test, lgb_preds))
+print("R² Score:", r2_score(y_test, lgb_preds))
+print("Explained Variance:", explained_variance_score(y_test, lgb_preds))
+
+# Cross-validation
+cv_scores = cross_val_score(lgb_model, X_train, y_train, cv=5, scoring='neg_mean_squared_error')
+print(f"Cross-validated MSE: {-cv_scores.mean():.4f} (±{cv_scores.std():.4f})")
+
+# For classification-style metrics, we can binarize the returns
+# (assuming positive returns are "good" and negative are "bad")
+if len(np.unique(y_test)) > 10:  # Only if it's truly continuous
+    median_val = np.median(y_train)
+    y_test_bin = (y_test > median_val).astype(int)
+    preds_bin = (lgb_preds > median_val).astype(int)
+    
+    print("\nClassification-style Metrics (based on median threshold):")
+    print("Accuracy:", accuracy_score(y_test_bin, preds_bin))
+    print("Precision:", precision_score(y_test_bin, preds_bin))
+    print("Recall:", recall_score(y_test_bin, preds_bin))
+
 # XGBoost
 xgb_model = xgb.XGBRegressor(objective="reg:squarederror")
 xgb_model.fit(X_train, y_train)
 xgb_preds = xgb_model.predict(X_test)
-print("XGBoost MSE:", mean_squared_error(y_test, xgb_preds))
+
+print("\nXGBoost Evaluation:")
+print("MSE:", mean_squared_error(y_test, xgb_preds))
+print("MAE:", mean_absolute_error(y_test, xgb_preds))
+print("R² Score:", r2_score(y_test, xgb_preds))
+print("Pearson Correlation:", pearsonr(y_test, xgb_preds)[0])
+
+# Feature importance
+plt.figure(figsize=(10, 6))
+xgb.plot_importance(xgb_model)
+plt.title("XGBoost Feature Importance")
+plt.show()
 
 # LazyPredict Comparison
 lazy = LazyRegressor(verbose=0, ignore_warnings=True, custom_metric=None)
@@ -68,7 +102,7 @@ print(models)
 # 5. Backtesting
 # === Rolling Out-of-Sample Backtest ===
 def rolling_backtest(data, variables, model_class, window=60):
-    excess_returns, mse_list = [], []
+    excess_returns, mse_list, preds, actuals = [], [], [], []
     for start in range(len(data) - window):
         train = data.iloc[start:start + window]
         test = data.iloc[start + window:start + window + 1]
@@ -82,11 +116,27 @@ def rolling_backtest(data, variables, model_class, window=60):
         model.fit(X_train, y_train)
         pred = model.predict(X_test)[0]
 
+        preds.append(pred)
+        actuals.append(y_test)
         excess_returns.append(pred - benchmark_test)
         mse_list.append((pred - y_test) ** 2)
 
-    if len(excess_returns) < 2: return None, None
-    return np.mean(excess_returns) / np.std(excess_returns), np.mean(mse_list)
+    if len(excess_returns) < 2: return None, None, None
+    
+    # Calculate additional metrics
+    preds = np.array(preds)
+    actuals = np.array(actuals)
+    
+    metrics = {
+        'sharpe_ratio': np.mean(excess_returns) / np.std(excess_returns),
+        'mse': np.mean(mse_list),
+        'mae': mean_absolute_error(actuals, preds),
+        'r2': r2_score(actuals, preds),
+        'correlation': pearsonr(actuals, preds)[0],
+        'direction_accuracy': np.mean((preds > 0) == (actuals > 0)) if len(actuals) > 0 else 0
+    }
+    
+    return metrics
 
 # === Prophet Forecasting ===
 def run_prophet(df):
