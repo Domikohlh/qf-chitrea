@@ -12,10 +12,14 @@ from sklearn.linear_model import RidgeCV, Lasso, LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import VotingClassifier
 from sklearn.svm import SVC
+import pyreadr
 
-#Import processed data
-setwd = os.path('Your_work_path')
-data = pd.read_csv('data_directory/processed_data.csv')
+#Read rds data
+data = pyreadr.read_r('/cleaned_macro_data.rds')
+
+#Extract pandas dataframe
+df = data[None]
+
 x = data['column1']
 y = data['column2']
 
