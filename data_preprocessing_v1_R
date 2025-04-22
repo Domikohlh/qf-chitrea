@@ -49,7 +49,7 @@ sum(is.na(combined_data))
 colSums(is.na(combined_data))
 #imputed_data$method
 #sapply(combined_data, class)
-#error<- tibble(colSums(is.na(combined_data)), imputed_data$method)
+#error<- as.tibble(colSums(is.na(combined_data)), imputed_data$method)
 #sum(error$`colSums(is.na(combined_data))`!= 0 ,error$`imputed_data$method` != 'pmm',  na.rm =TRUE)
 
 #Fill na with 0
@@ -69,7 +69,7 @@ ggplot(data = NULL, aes(x = 1:length(variance), y = variance)) +
   labs(x = "Principal Component", y = "Proportion of Variance", title = "Scree Plot")
 
 #Score plot (Projection onto PCs)
-scores <- as.data.frame(pca_result$x)
+scores <- as.tibbe(pca_result$x)
 ggplot(scores, aes(x = PC1, y = PC2, color = "PC")) +
   geom_point() +
   labs(title = "PCA Scores Plot")
