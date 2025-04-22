@@ -6,9 +6,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 from sklearn.model_selection import train_test_split, StratifiedKFold
-from sklearn.metrics import confusion_matrix, precision_score, recall_score, mean_squared_error, accuracy_score
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, mean_squared_error, accuracy_score, mean_absolute_error, r2_score
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import RidgeCV, Lasso, LinearRegression
+from sklearn.linear_model import RidgeCV, Lasso, LinearRegression, Ridge
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import VotingClassifier
 from sklearn.svm import SVR
@@ -16,7 +16,7 @@ from rds2py import read_rds
 from itertools import combinations
 
 #Import processed data
-data = read_rds(r""C:\Users\Alan\OneDrive\桌面\利率债择时模型\cleaned_macro_data.rds"")
+data = read_rds(r"C:\Users\Alan\OneDrive\桌面\利率债择时模型\cleaned_macro_data.rds")
 print(data.head())
 
 # generate all variable combinations from the top ten relevant variables
@@ -33,10 +33,6 @@ for r in range(3, 7):
     combi_list.extend(combinations(top_vars, r))
 
 # model loop for each combination
-
-from sklearn.linear_model import Ridge
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-import numpy as np
 
 results = []
 
@@ -77,5 +73,35 @@ signal = np.sign(np.diff(pred))  # assumes yield change as signal
 # evaluate Trading Performance (Sharpe etc.)
 # use the prediction to simulate a simple long/short strategy. Based on the singal
 # Simple Sharpe Ratio calculation
+bond_return_series = y_test.diff().fillna(0).values 
 daily_returns = signal * bond_return_series  # assume bond_return_series is pre-computed
 sharpe_ratio = np.mean(daily_returns) / np.std(daily_returns) * np.sqrt(252)  # annualized
+
+print("Sharpe Ratio: ", sharpe_ratio)
+
+# Plot the prediction vs actual yield
+plt.figure(figsize=(10, 6))
+plt.plot(y_test.index, y_test, label="Actual Yield", color='blue')
+plt.plot(y_test.index, pred, label="Predicted Yield", color='red')
+plt.title("Yield Prediction vs Actual")
+plt.xlabel("Date")
+plt.ylabel("Yield")
+plt.legend()
+plt.show()
+
+# Save the best combination of features and their performance metrics
+best_combination = sorted_results[0]
+best_combination_df = pd.DataFrame([best_combination])
+best_combination_df.to_csv("best_combination.csv", index=False)
+
+# Save the model for the best combination (optional)
+import joblib
+best_model = Ridge()
+X_best = data[list(best_combination["features"])]
+best_model.fit(X_best, y)
+joblib.dump(best_model, "best_model.pkl")
+
+print("Best feature combination: ", best_combination["features"])
+print("MSE: ", best_combination["mse"])
+print("MAE: ", best_combination["mae"])
+print("R2: ", best_combination["r2"])
