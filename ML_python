@@ -20,17 +20,25 @@ data = pyreadr.read_r('/cleaned_macro_data.rds')
 
 #Extract pandas dataframe
 df = data[None]
-
-x = pd.DataFrame(df.loc[:, "中国:社会消费品零售总额:当月值"])
+#Extract pandas dataframe
+df = data[None]
+top9_PC = [
+    "中国:社会消费品零售总额:当月值", "中国:M2", "中国:产量:发电量:当月值.1",
+    "中国:M1", "中国:金融机构:企业存款余额", "中国:金融机构:短期贷款余额",
+    "中国:城镇居民平均每百户拥有量:家用汽车", "中国:M0", "中国:产量:发电量:当月值"
+]
+x = pd.DataFrame(df[top9_PC])
 y = pd.DataFrame(df.loc[:, "中国:M1:单位活期存款"])
+
+#Calculate the standard deviation for each columns
+for feature in x.columns:
+    col_data = x[feature]
+    sdv = statistics.stdev(col_data)
+    print("The standard deviation of", feature, "is :", "\n", sdv)
+    print("----------------------------------")
 
 #Split the training and testing data 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.3, random_state = 42)
-
-#Input the linear (base) model
-ridge_model = RidgeCV(alphas=[0.1, 1.0, 10.0])
-lasso_model = Lasso(alpha=0.1)
-lin_model = LinearRegression()
 
 #Input the linear (base) model
 ridge_model = RidgeCV(alphas=[0.1, 1.0, 10.0])
@@ -43,7 +51,6 @@ for ml in (ridge_model, lasso_model, lin_model):
     mse = mean_squared_error(y_test, model_preds)
     print(ml.__class__.__name__, "Performance:")
     print("RMSE:", np.sqrt(mse) )
-    print("Standard deviation of 中国:社会消费品零售总额:当月值:", statistics.stdev(df['中国:社会消费品零售总额:当月值']))
     print("R2 :", r2_score(y_test, model_preds))
     print("Intercept (Theta_0):", ml.intercept_)
     print("Coefficient (Theta_1):", ml.coef_)
