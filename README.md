@@ -33,13 +33,21 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    - Base models: OLS, Ridge, Lasso
    - Tree-based: XGBoost
    - Sequence models (later): LSTM, RNN for time-aware trends
-3. Hyperparameter Tuning
-   - Use GridSearch with TimeSeriesSplit
-   - Margin tunning 
-4. Model Evaluation (during training) 
+  
+3. Model Evaluation (during training) 
   - "Does it predict yield well?" 
   - Accuracy/Precision/Recall 
-  - Cross-validation
+  - RMSE (Lower = better. An RMSE close to 0 means your model is making very accurate predictions, have to backtest to see if it is overfitting tho)
+  - RMSE < 0.1 → Excellent
+  - RMSE ≈ 0.2–0.4 → Acceptable for macr 
+  - R2 (a score between 0 and 1 (or negative if worse than random))
+  - R2 = 1.0 → Perfect prediction (be cautious: might be overfitting)
+  - R2 ≥ 0.9 → Excellent (explains over 90% of bond yield variation)
+  - R2 between 0.7 and 0.9 → Good
+    
+4. Hyperparameter Tuning
+   - Use GridSearch with TimeSeriesSplit
+
 5. Backtesting (after the model is trained and selected) 
   - "Does it actually make money (or outperform)?" 
    
