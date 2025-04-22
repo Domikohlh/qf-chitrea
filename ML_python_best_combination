@@ -1,6 +1,25 @@
-# generate all variable combinations from the top ten relevant variables
+#Import library
+#Install all the libraries with 'pip install (Library)'
 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import os
+from sklearn.model_selection import train_test_split, StratifiedKFold
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, mean_squared_error, accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import RidgeCV, Lasso, LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import VotingClassifier
+from sklearn.svm import SVR
+from rds2py import read_rds
 from itertools import combinations
+
+#Import processed data
+data = read_rds(r""C:\Users\Alan\OneDrive\桌面\利率债择时模型\cleaned_macro_data.rds"")
+print(data.head())
+
+# generate all variable combinations from the top ten relevant variables
 
 top_vars = [
     "中国:社会消费品零售总额:当月值", "中国:M1:单位活期存款", "中国:M2", "中国:产量:发电量:当月值.1",
