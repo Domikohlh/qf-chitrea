@@ -12,6 +12,8 @@ from sklearn.linear_model import RidgeCV, Lasso, LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import VotingClassifier
 from sklearn.svm import LinearSVC
+from sklearn.preprocessing import StandardScaler
+
 import pyreadr
 import statistics
 
