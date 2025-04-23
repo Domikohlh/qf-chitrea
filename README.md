@@ -28,13 +28,41 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    MSE, Sharpe Ratio, Maximum Drawdown, etc
 
 # Project Structure
-1. Data Preparation (Standardisation, Handling missing data, dimensionality reduction(PCA)) (DONE)
-2. Model Selection
-   - Base models: OLS, Ridge, Lasso
-   - Tree-based: XGBoost
-   - Sequence models (later): LSTM, RNN for time-aware trends
+1. Data Preparation (DONE)
+   - Standardize variables
+   - Handling missing values
+   - Reduce dimensionality (e.g. PCA, correlation filter)
+   - Create lag features for both target and predictors
+   - Optional: stationarity tests and seasonality decomposition
+2. Modelling Stage - Predictive Signal Construction
+   - 2.1 Model Selection
+   - Linear models: OLS, Ridge, Lasso
+   - Tree-Based models: XGBoost, LightGBM
+   - Sequence models(later): RNN - LSTM, GRU
+   - Optional: Prophet or Kalman filters for trend detection
+   - 2.2 Model Evaluation (Predictive Quality)
+   - RMSE (target < 0.1 for high accuracy; 0.2–0.4 acceptable for macro)
+   - R² score (0.7–0.9 is strong; 1.0 may indicate overfitting)
+   - Directional accuracy
+   - Visual inspection: predicted vs actual
+   - 2.3 Hyperparameter Tuning
+   - Use GridSearchCV or Optuna with TimeSeriesSplit
+   - Optimize RMSE or directional metrics while avoiding overfit
+     
+3. Strategy Testing Stage - Signal Performance
+   - 3.1 Backtesting
+   - Use model output to create signals (e.g., yield levels, changes, or directional labels)
+   - Evaluate with: Annualised return, Sharpe Ratio, Max Drawdown, Volatility adjusted return (less relevant in bond investing)
+   - 3.2 Feature Combination Testing
+   - Loop through combinations of variables
+   - Evaluate each set based on the backtested Sharpe ratio or return
+   - Select combinations that perform well in out-of-sample
+   - 3.3 Overfitting Detection
+   - Use rolling or walk-forward backtesting
+   - Compare in-sample vs out-of-sample performance
+   - Run robustness checks:Randomized signals, Add cost/slippage, Stress-test signal thresholds
   
-3. Model Evaluation (during training) 
+5. Model Evaluation (during training) 
   - "Does it predict yield well?" 
   - Accuracy/Precision/Recall 
   - RMSE (Lower = better. An RMSE close to 0 means your model is making very accurate predictions, have to backtest to see if it is overfitting tho)
