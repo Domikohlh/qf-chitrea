@@ -51,9 +51,13 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
      
 3. Strategy Testing Stage - Signal Performance
    - 3.1 Backtesting
-   - Use model output to create signals (e.g., yield levels, changes, or directional labels)
+   - top9_PC = ["中国:社会消费品零售总额:当月值", "中国:M2", "中国:产量:发电量:当月值.1",
+    "中国:M1", "中国:金融机构:企业存款余额", "中国:金融机构:短期贷款余额",
+    "中国:城镇居民平均每百户拥有量:家用汽车", "中国:M0", "中国:产量:发电量:当月值"]
+
+   - Signal Generation: Use model outputs derived from the above variables to predict yield changes (ΔYield). Convert these predictions into clear long or short signals (e.g., long if yield is predicted to decrease, short if yield is predicted to increase).
    - Evaluate with: Annualised return, Sharpe Ratio, Max Drawdown, Volatility adjusted return (less relevant in bond investing)
-   - For signal generation direction: You can use predicted changes in yields (e.g., ΔYield) → generate long/short signals. (中国_中债国债到期收益率_10年)
+   - Benchmark: Utilize "中国_中债国债到期收益率_10年" data as the primary benchmark for yield changes, aligning predicted changes with actual market movements.
    - 3.2 Feature Combination Testing
    - Loop through combinations of variables
    - Evaluate each set based on the backtested Sharpe ratio or return
