@@ -61,7 +61,7 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    - 3.2 Feature Combination Testing
    - Loop through combinations of variables
    - Evaluate each set based on the backtested Sharpe ratio or return
-   - For performance evaluation: Apply those signals to the 中债国债总净价指数 to simulate actual investment performance. 
+   - For performance evaluation: Apply those signals to the 国债期货_10年期 to simulate actual investment performance. 
    - Select combinations that perform well in out-of-sample
    - 3.3 Overfitting Detection
    - Use rolling or walk-forward backtesting
