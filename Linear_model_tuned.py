@@ -61,3 +61,45 @@ for ml in (ridge_model, lasso_model, lin_model):
     plt.ylabel('Predictions')
     plt.show()
     print("----------------------------------")
+
+#Standardisation
+scaler = StandardScaler()
+x_train_scaled = scaler.fit_transform(x_train)
+x_test_scaled = scaler.transform(x_test)
+
+#Load regularised pure model
+ridge_model = RidgeCV()
+lasso_model = Lasso()
+
+#Set parameter grid for 2 models
+
+ridge_params = {
+    'alphas': [0.01, 0.1, 1, 10 ,100]
+}
+
+ridge_grid = GridSearchCV(ridge_model, ridge_params, cv=5, scoring = 'neg_mean_squared_error', verbose =1)
+
+lasso_params = {
+    'alpha': [0.001, 0.01, 0.1, 1, 10],  # Smaller alphas than Ridge
+}
+
+lasso_grid = GridSearchCV(lasso_model, lasso_params, cv=5, scoring = 'neg_mean_squared_error', verbose =1)
+
+#Hyperparameter for 2 regularised model
+
+for grid in (ridge_grid, lasso_grid):
+    grid.fit(x_train_scaled, y_train)
+    print("Best", grid ,"Params:", grid.best_params_)
+    best_estim = grid.best_estimator_
+    tuned_preds = best_estim.predict(x_test_scaled)
+    
+    print("MSE:", mean_squared_error(y_test, tuned_preds))
+    print("R2:", r2_score(y_test, tuned_preds))
+    plt.plot(y_test.values, tuned_preds, 'bo', label='Predicted vs Actual')
+    plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', lw=2, label='Ideal')
+    plt.title("Tuned Model")
+    plt.xlabel("Actual")
+    plt.ylabel("Predicted")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
