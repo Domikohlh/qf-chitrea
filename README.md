@@ -53,9 +53,11 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    - 3.1 Backtesting
    - Use model output to create signals (e.g., yield levels, changes, or directional labels)
    - Evaluate with: Annualised return, Sharpe Ratio, Max Drawdown, Volatility adjusted return (less relevant in bond investing)
+   - For signal generation direction: You can use predicted changes in yields (e.g., ΔYield) → generate long/short signals. (中国_中债国债到期收益率_10年)
    - 3.2 Feature Combination Testing
    - Loop through combinations of variables
    - Evaluate each set based on the backtested Sharpe ratio or return
+   - For performance evaluation: Apply those signals to the 中债国债总净价指数 to simulate actual investment performance. 
    - Select combinations that perform well in out-of-sample
    - 3.3 Overfitting Detection
    - Use rolling or walk-forward backtesting
