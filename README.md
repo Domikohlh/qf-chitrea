@@ -138,3 +138,4 @@ You may want to consider adding noise or perturbations to the data and performin
 # Note
 1. R programming outputed garbled code when execute in csv format. Changed to rds and read successfully in Python
 2. Do not move the export line in R. It is because date is added back and move the line forward may lead to error in PCA analysis
+3. The coupon rate is the fixed interest paid on a bond's face value, while bond yield reflects the actual return based on market price. Yield-to-maturity(YTM) helps investors assess a bond's total return if held until maturity, facotoring in price changes and interest
