@@ -41,7 +41,7 @@ nzv_filtered_data <- scaled_data[, !(colnames(scaled_data) %in% cols_to_remove),
 #Impute missing data using predictive mean matching (PPM)
 colSums(is.na(nzv_filtered_data))
 #Create 5 separate imputed datasets for variability in plausible values and improve accuracy
-imputed_data <- mice(nzv_filtered_data, m = 5, method = "pmm")
+imputed_data <- mice(nzv_filtered_data, m = 5, method = "pmm") #Add "maxit =" to control the maximum iterations if needeed
 combined_data <- complete(imputed_data, 1)
 
 #Check the number of na
