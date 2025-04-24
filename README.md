@@ -63,10 +63,8 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    - Evaluate each set based on the backtested Sharpe ratio or return
    - For performance evaluation: Apply those signals to the 国债期货_10年期 to simulate actual investment performance. 
    - Select combinations that perform well in out-of-sample
-   - 3.3 Overfitting Detection
-   - Use rolling or walk-forward backtesting
-   - Compare in-sample vs out-of-sample performance
-   - Run robustness checks:Randomized signals, Add cost/slippage, Stress-test signal thresholds
+   - 3.3 Stress-testing 
+   - Run robustness checks: Add cost/slippage, Stress-test signal thresholds
   
 
 # Model Evaluation Metrics
