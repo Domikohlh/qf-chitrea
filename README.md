@@ -54,6 +54,11 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    - top9_PC = ["中国:社会消费品零售总额:当月值", "中国:M2", "中国:产量:发电量:当月值.1",
     "中国:M1", "中国:金融机构:企业存款余额", "中国:金融机构:短期贷款余额",
     "中国:城镇居民平均每百户拥有量:家用汽车", "中国:M0", "中国:产量:发电量:当月值"]
+   - top10_PC = [
+    "中国:社会消费品零售总额:当月值", "中国:M1:单位活期存款", "中国:M2", "中国:产量:发电量:当月值.1",
+    "中国:M1", "中国:金融机构:企业存款余额", "中国:金融机构:短期贷款余额",
+    "中国:城镇居民平均每百户拥有量:家用汽车", "中国:M0", "中国:产量:发电量:当月值"]
+
 
    - Signal Generation: Use model outputs derived from the above variables to predict yield changes (ΔYield). Convert these predictions into clear long or short signals (e.g., long if yield is predicted to decrease, short if yield is predicted to increase).
    - Evaluate with: Annualised return, Sharpe Ratio, Max Drawdown, Volatility adjusted return (less relevant in bond investing)
