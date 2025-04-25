@@ -122,7 +122,7 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
 
 # ML Model Result
 - "中国:产量:发电量:当月值.1" 是最核心因子 (It consistently shows strong positive predictive power across all models (coefficient close to 1))
-- Based on the ML RMSE/R result. The estimate best models are:
+- Based on the ML (RMSE/R) result. The estimate best models are:
   XGBoost(0.212/0.8671) > Voting(0.241/0.827) > LGBM(0.320/0.696) > tuned_LSTM(0.447/0.404)> tuned_Ridge(0.464/0.374) > tuned_Lasso(0.470>0.360)
 
 
