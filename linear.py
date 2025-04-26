@@ -1,3 +1,5 @@
+#We deployed 3 linear model (lasso, ridge and linear regression) for prediction, and gridsearch the greatest hyperparameter for the regularised model
+
 #Import library
 #Install all the libraries with 'pip install (Library)'
 
