@@ -15,7 +15,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import VotingClassifier
 from sklearn.svm import LinearSVC
 from sklearn.preprocessing import StandardScaler
-
+from sklearn.model_selection import cross_val_score
 import pyreadr
 import statistics
 
@@ -54,11 +54,15 @@ for ml in (ridge_model, lasso_model, lin_model):
     ml.fit(x_train, y_train)
     model_preds = ml.predict(x_test)
     mse = mean_squared_error(y_test, model_preds)
+    scores = cross_val_score(ml, x, y, cv=5)
+    
     print(ml.__class__.__name__, "Performance:")
     print("RMSE:", np.sqrt(mse) )
     print("R2 :", r2_score(y_test, model_preds))
     print("Intercept (Theta_0):", ml.intercept_)
     print("Coefficient (Theta_1):", ml.coef_)
+    print("Cross Validation score:" scores)
+    
     plt.plot(model_preds, model_preds, 'r-', zorder = 2)
     plt.plot(x,y, 'b.', zorder =1)
     plt.title(ml.__class__.__name__)
@@ -100,6 +104,7 @@ for grid in (ridge_grid, lasso_grid):
     
     print("MSE:", mean_squared_error(y_test, tuned_preds))
     print("R2:", r2_score(y_test, tuned_preds))
+    
     plt.plot(y_test.values, tuned_preds, 'bo', label='Predicted vs Actual')
     plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', lw=2, label='Ideal')
     plt.title("Tuned Model")
