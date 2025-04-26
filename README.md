@@ -2,7 +2,7 @@
 This is a GitHub place for Alan and Dominic to work on the quantitative finance project in Chinese Treasury (qf-chitrea) for model prediction and training using iFind data.
 
 # Current Progress (Please read/edit the note before you start)
-- Run Machine Learning models and evaluation in Python
+- Backtesting the selected model to financial analysis
 
 # Objective
 1. Quantitative model for bond
@@ -33,7 +33,7 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    - Create lag features for both target and predictors
    - Optional: stationarity tests and seasonality decomposition
      
-2. Modelling Stage - Predictive Signal Construction (ONGOING)
+2. Modelling Stage - Predictive Signal Construction (DONE)
    - 2.1 Model Selection
    - Linear models: OLS, Ridge, Lasso
    - Tree-Based models: XGBoost, LightGBM
@@ -48,23 +48,19 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    - Use GridSearchCV or Optuna with TimeSeriesSplit
    - Optimize RMSE or directional metrics while avoiding overfit
      
-3. Strategy Testing Stage - Signal Performance
-   - 3.1 Backtesting
-   - top10_PC = [
-    "中国:社会消费品零售总额:当月值", "中国:M1:单位活期存款", "中国:M2", "中国:产量:发电量:当月值.1",
-    "中国:M1", "中国:金融机构:企业存款余额", "中国:金融机构:短期贷款余额",
-    "中国:城镇居民平均每百户拥有量:家用汽车", "中国:M0", "中国:产量:发电量:当月值"]
-   - yield_data = = data_2.loc[:,'monthly_avg_yield']
-
-
+3. Strategy Testing Stage - Signal Performance (ONGOING)
+   
+   - 3.1 Backtesting (DONE)
    - Signal Generation: Use model outputs derived from the above variables to predict yield changes (ΔYield). Convert these predictions into clear long or short signals (e.g., long if yield is predicted to decrease, short if yield is predicted to increase).
    - Evaluate with: Annualised return, Sharpe Ratio, Max Drawdown, Volatility adjusted return (less relevant in bond investing)
    - Benchmark: Utilize "中国_中债国债到期收益率_10年" data as the primary benchmark for yield changes, aligning predicted changes with actual market movements.
-   - 3.2 Feature Combination Testing
+     
+   - 3.2 Feature Combination Testing (ONGING)
    - Loop through combinations of variables
    - Evaluate each set based on the backtested Sharpe ratio or return
    - For performance evaluation: Apply those signals to the 国债期货_10年期 to simulate actual investment performance. 
    - Select combinations that perform well in out-of-sample
+     
    - 3.3 Stress-testing 
    - Run robustness checks: Add cost/slippage, Stress-test signal thresholds
   
@@ -73,8 +69,6 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
  1. Forecasting Yield / Interest Rate (e.g. 10Y CGB Yield)
 
 - Mean Squared Error (MSE) / Root Mean Squared Error (RMSE): Measures the average prediction error. Sensitive to large deviations.
-
-- Mean Absolute Error (MAE): Less sensitive to outliers than MSE; interpretable in yield terms (bps).
 
 - R² (Coefficient of Determination): Useful to see how much variance your model explains.
 
@@ -119,6 +113,8 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
 10. Ran 3 linear regressions of the top 10 PCs (Python)
 11. Ran 3 boosting model (XGBoost + LightGBM + Voting) (Python)
 12. Ran Long-Short Term Memory - RNN (Python)
+13. Select the best two models based on RMSE for downstream analysis (Python)
+14. Calculate the four indicators: (1) Annualised Returns (2) Volatility (3) Sharpe ratio (4) Maximum drawdown
 
 # ML Model Result
 - "中国:产量:发电量:当月值.1" 是最核心因子 (It consistently shows strong positive predictive power across all models (coefficient close to 1))
