@@ -1,5 +1,6 @@
-#Don't forget to install all of the library using: install.packages('Library name')
+#This is the R script for preprocessing any macro data with implementation of scale, predictive mean method (pmm), and n/a replacement
 
+#Don't forget to install all of the library using: install.packages('Library name')
 install.packages(c("fst", "dplyr", "stringr", "crayon", "tibble", "ResourceSelection", 
                    "caret", "pROC", "Metrics", "ggplot2", "readr", "readxl", 
                    "mice", "factoextra"))
