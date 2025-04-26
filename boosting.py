@@ -14,6 +14,7 @@ import matplotlib
 from lightgbm import LGBMRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, VotingRegressor
 from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score
 
 #Read rds data
 data_1 = pyreadr.read_r('/Users/dominicevergarden/Desktop/qf_chitrea/aligned_marco_data.rds')
