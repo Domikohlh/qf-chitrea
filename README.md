@@ -114,7 +114,7 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
 11. Ran 3 boosting model (XGBoost + LightGBM + Voting) (Python)
 12. Ran Long-Short Term Memory - RNN (Python)
 13. Select the best two models based on RMSE for downstream analysis (Python)
-14. Calculate the four indicators: (1) Annualised Returns (2) Volatility (3) Sharpe ratio (4) Maximum drawdown
+14. Calculate the four indicators: (1) Annualised Returns (2) Volatility (3) Sharpe ratio (4) Maximum drawdown (Python)
 
 # ML Model Result
 - "中国:产量:发电量:当月值.1" 是最核心因子 (It consistently shows strong positive predictive power across all models (coefficient close to 1))
