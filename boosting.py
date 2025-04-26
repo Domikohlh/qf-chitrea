@@ -43,11 +43,13 @@ xgb.fit(x_train, y_train)
 y_pred = xgb.predict(x_test)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
+scores = cross_val_score(xgb, x, y, cv=5)
 
 # Output performance
 print("XGBoost Performance:")
 print("RMSE:", np.sqrt(mse))
 print(f"R² Score: {r2:.4f}")
+print("Cross Validation Score:", scores)
 
 #Feature Importance
 xgb.plot_importance(model)
@@ -76,7 +78,7 @@ xgb = XGBRegressor(n_estimators=100, max_depth=3, learning_rate=0.1)
 lgbm = LGBMRegressor( n_estimators=100, max_depth=3, learning_rate=0.1)
 
 # Voting Regressor
-model = VotingRegressor(estimators=[
+vtm = VotingRegressor(estimators=[
     ('rf', rf),
     ('gb', gb),
     ('xgb', xgb),
@@ -84,14 +86,16 @@ model = VotingRegressor(estimators=[
 ])
 
 # Fit the ensemble model
-model.fit(x_train, y_train.values.ravel())
+vtm.fit(x_train, y_train.values.ravel())
 
 # Predict and evaluate
 y_pred = model.predict(x_test)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
+scores = cross_val_score(vtm, x, y, cv=5)
 
 # Output performance
 print("Voting Regressor Performance:")
 print("RMSE:", np.sqrt(mse))
 print(f"R² Score: {r2:.4f}")
+print("Cross Validation Score:", scores)
