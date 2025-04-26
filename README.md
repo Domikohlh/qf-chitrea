@@ -142,3 +142,14 @@ You may want to consider adding noise or perturbations to the data and performin
 2. Do not move the export line in R. It is because date is added back and move the line forward may lead to error in PCA analysis
 3. Date must be aligned in both inputs and predictions data to ensure an accurate prediction in yield
 4. The coupon rate is the fixed interest paid on a bond's face value, while bond yield reflects the actual return based on market price. Yield-to-maturity(YTM) helps investors assess a bond's total return if held until maturity, facotoring in price changes and interest
+5. When you buy a bond, you are promised fixed payments (coupons) and a fixed return at maturity.
+
+- Suppose you bought a bond that pays $5 every year.
+
+- If market interest rates (yields) rise (say new bonds pay $6),
+then your $5 bond becomes less attractive compared to new bonds.
+
+- To adjust, the price of your bond must fall so that its effective yield matches the new market rate.
+
+- Conversely, if yields fall and new bonds only pay $4,
+your $5 bond becomes more valuable, so its price rises.
