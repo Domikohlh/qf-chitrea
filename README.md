@@ -58,7 +58,7 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    - 3.2 Feature Combination Testing (ONGING)
    - Loop through combinations of variables
    - Evaluate each set based on the backtested Sharpe ratio or return
-   - For performance evaluation: Apply those signals to the 国债期货_10年期 to simulate actual investment performance. 
+   - For performance evaluation: Apply those signals to the 中国_中债国债到期收益率_10年 to simulate actual investment performance. 
    - Select combinations that perform well in out-of-sample
      
    - 3.3 Stress-testing 
