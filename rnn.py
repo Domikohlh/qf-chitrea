@@ -13,6 +13,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import cross_val_score
 
 #Read rds data
 data_1 = pyreadr.read_r('/Users/dominicevergarden/Desktop/qf_chitrea/aligned_marco_data.rds')
@@ -69,10 +70,12 @@ for af in functions:
     y_test_rescaled = scaler.inverse_transform(y_test)
     mse = mean_squared_error(y_test_rescaled, inv_pred)
     r2 = r2_score(y_test_rescaled, inv_pred)
+    scores = cross_val_score(lstm_model, x, y, cv=5)
     
     print( "The Performance of activation function", af, "under Long-Short Term Memory:" )
     print("RMSE:", np.sqrt(mse))
     print("R2:", r2)  
+    print('Cross Validation Scores:', scores)
     print("------------------------------------------")
 
 #Find the best hyperparameters in the best performance activation function
