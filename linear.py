@@ -26,11 +26,12 @@ data = pyreadr.read_r('/cleaned_macro_data.rds')
 df = data[None]
 #Extract pandas dataframe
 df = data[None]
-top9_PC = [
-    "中国:社会消费品零售总额:当月值", "中国:M2", "中国:产量:发电量:当月值.1",
+top10_PC = [
+    "中国:社会消费品零售总额:当月值", "中国:M1:单位活期存款", "中国:M2", "中国:产量:发电量:当月值.1",
     "中国:M1", "中国:金融机构:企业存款余额", "中国:金融机构:短期贷款余额",
     "中国:城镇居民平均每百户拥有量:家用汽车", "中国:M0", "中国:产量:发电量:当月值"
 ]
+
 x = pd.DataFrame(df[top9_PC])
 y = pd.DataFrame(df.loc[:, "中国:M1:单位活期存款"])
 
