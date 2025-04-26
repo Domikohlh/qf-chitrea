@@ -153,3 +153,7 @@ then your $5 bond becomes less attractive compared to new bonds.
 
 - Conversely, if yields fall and new bonds only pay $4,
 your $5 bond becomes more valuable, so its price rises.
+
+- Higher yields → existing bonds must drop in price to stay competitive.
+
+- Lower yields → existing bonds rise in price because they look better than new bonds.
