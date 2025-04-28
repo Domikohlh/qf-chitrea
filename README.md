@@ -3,6 +3,7 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
 
 # Current Progress (Please read/edit the note before you start)
 - Backtesting the selected model to financial analysis
+- Add additional accuracy and confusion matrix
 
 # Objective
 1. Quantitative model for bond
@@ -55,33 +56,34 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
    - Evaluate with: Annualised return, Sharpe Ratio, Max Drawdown, Volatility adjusted return (less relevant in bond investing)
    - Benchmark: Utilize "中国_中债国债到期收益率_10年" data as the primary benchmark for yield changes, aligning predicted changes with actual market movements.
      
-   - 3.2 Feature Combination Testing (ONGING)
+   - 3.2 Feature Combination Testing (DONE)
    - Loop through combinations of variables
    - Evaluate each set based on the backtested Sharpe ratio or return
    - For performance evaluation: Apply those signals to the 中国_中债国债到期收益率_10年 to simulate actual investment performance. 
    - Select combinations that perform well in out-of-sample
      
-   - 3.3 Stress-testing 
+   - 3.3 Stress-testing (ONGOING)
    - Run robustness checks: Add cost/slippage, Stress-test signal thresholds
+     
+   - 3.4 Trading Strategy building
+
   
 
 # Model Evaluation Metrics
- 1. Forecasting Yield / Interest Rate (e.g. 10Y CGB Yield)
+ 1. Forecasting Yield / Interest Rate (e.g. 10Y CGB Yield) (DONE)
 
 - Mean Squared Error (MSE) / Root Mean Squared Error (RMSE): Measures the average prediction error. Sensitive to large deviations.
 
 - R² (Coefficient of Determination): Useful to see how much variance your model explains.
 
-✅ Use these if your model is built to predict exact yield levels.
+✅ Use these if the model is built to predict exact yield levels.
 
-2. Forecasting Signals / Timing Decisions (e.g. +1, 0, -1)
-- If you're converting macro or valuation signals into timing indicators:
+2. Forecasting Signals / Timing Decisions (e.g. +1, 0, -1) (DONE)
+- Generate long/short signals based on the prediction change level.
+- If the difference < 0, gives a long signal (1). Otherwise, it will give a short signal (-1)
+- 
 
-- Accuracy / Precision / Recall: Using +1 / 0 / -1 frameworks to classify signals.
-
-- Confusion Matrix: To understand the distribution of timing signals (e.g. false positives).
-
-✅ Use if your model outputs directionality or discrete timing signals.
+✅ Use if the model outputs directionality or discrete timing signals.
 
 3. Portfolio / Backtesting Evaluation (based on model decisions)
 - Since our model leads to actual positioning (e.g. long or short duration), we want trading performance metrics:
@@ -115,17 +117,20 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
 12. Ran Long-Short Term Memory - RNN (Python)
 13. Select the best two models based on RMSE for downstream analysis (Python)
 14. Calculate the four indicators: (1) Annualised Returns (2) Volatility (3) Sharpe ratio (4) Maximum drawdown (Python)
+15. Loop through the 10 features to find the best combination that gives the highest shape ratio and lowest MRSE (Python)
 
-# ML Model Result
+# Result
 - "中国:产量:发电量:当月值.1" 是最核心因子 (It consistently shows strong positive predictive power across all models (coefficient close to 1))
-- Based on the ML (RMSE/R) result. The estimate best models are:
+- Based on the regularised/optimised ML (RMSE/R) result. The estimate best models are:
   XGBoost(0.212/0.8671) > Voting(0.241/0.827) > LGBM(0.320/0.696) > tuned_LSTM(0.447/0.404)> tuned_Ridge(0.464/0.374) > tuned_Lasso(0.470>0.360)
+- Combination testing showed the combination of the average car holders in China and eletricity production per volumn suggested the highest sharpe ratio (1.04) and lowest RMSE (0.3799).
+- We remained using the 10 features predictions in XGBoost/Voting for further investigation due to its lowest RMSE, despite their sharpe ratio is low. 
 
 
-# Backtesting for Ridge
-The Ridge model performs very stably in backtesting. RMSE consistently decreases, and R² approaches perfection, suggesting strong out-of-sample predictive power. Currently, there are no signs of overfitting.
+# Backtesting for XGBoost/Voting
+The XGBoost/Voting model performs very stably in backtesting. RMSE consistently decreases, and R² approaches perfection, suggesting strong out-of-sample predictive power. Currently, there are no signs of overfitting.
 
-But you should ask yourself:
+Questions to consider:
 
 Is the data too stable, making the model appear ideal?
 
@@ -137,8 +142,10 @@ You may want to consider adding noise or perturbations to the data and performin
 1. R programming outputed garbled code when execute in csv format. Changed to rds and read successfully in Python
 2. Do not move the export line in R. It is because date is added back and move the line forward may lead to error in PCA analysis
 3. Date must be aligned in both inputs and predictions data to ensure an accurate prediction in yield
-4. The coupon rate is the fixed interest paid on a bond's face value, while bond yield reflects the actual return based on market price. Yield-to-maturity(YTM) helps investors assess a bond's total return if held until maturity, facotoring in price changes and interest
-5. When you buy a bond, you are promised fixed payments (coupons) and a fixed return at maturity.
+4. We should look into the determination of hold signal.
+5. Can add accuracy and confusion matrix for XGBoost and voting for additional evaluation.
+6. The coupon rate is the fixed interest paid on a bond's face value, while bond yield reflects the actual return based on market price. Yield-to-maturity(YTM) helps investors assess a bond's total return if held until maturity, facotoring in price changes and interest
+7. When you buy a bond, you are promised fixed payments (coupons) and a fixed return at maturity.
 
 - Suppose you bought a bond that pays $5 every year.
 
