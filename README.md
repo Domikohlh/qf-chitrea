@@ -81,7 +81,6 @@ This is a GitHub place for Alan and Dominic to work on the quantitative finance 
 2. Forecasting Signals / Timing Decisions (e.g. +1, 0, -1) (DONE)
 - Generate long/short signals based on the prediction change level.
 - If the difference < 0, gives a long signal (1). Otherwise, it will give a short signal (-1)
-- 
 
 ✅ Use if the model outputs directionality or discrete timing signals.
 
