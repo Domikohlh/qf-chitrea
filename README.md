@@ -1,10 +1,6 @@
 # qf-chitrea
 This is a GitHub place for Alan and Dominic to work on the quantitative finance project in Chinese Treasury (qf-chitrea) for model prediction and training using iFind data.
 
-# Current Progress
-- Backtesting the selected model to financial analysis
-- Add additional accuracy and confusion matrix
-
 # Objective
 1. Quantitative model for bond
    We will use the following data:
